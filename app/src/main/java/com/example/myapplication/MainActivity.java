@@ -1,6 +1,8 @@
 package com.example.myapplication;
 
+import android.media.AudioManager;
 import android.media.MediaPlayer;
+import android.media.SoundPool;
 import android.os.Bundle;
 import android.os.SystemClock;
 import android.util.Log;
@@ -29,6 +31,8 @@ private boolean buttonCampIsCgecked = false;
 private final int CAMP_PTM = 5*1000*60; // 5 минут
 private TextView textViewPTM;
 private TextView textViewOverstatement;
+private boolean signalIsPlay = false;
+
 
     protected void onRestoreInstanceState(Bundle savedInstanceState) {
         super.onRestoreInstanceState(savedInstanceState);
@@ -55,6 +59,7 @@ private TextView textViewOverstatement;
     public void buttonStart(View view) {
         System.out.println("chronometer.getX() " + chronometer.getContentDescription());
         start();
+        signalIsPlay = false;
         Log.i(TAG, "start");
     }
 
@@ -64,6 +69,7 @@ private TextView textViewOverstatement;
         chronometer.start();
         onPause = false;
         buttonCampIsCgecked = false;
+        signalIsPlay = false;
         pauseButton.setEnabled(true);
         camp.setImageResource(R.drawable.kp);
     }
@@ -96,6 +102,7 @@ private TextView textViewOverstatement;
             chronometer.start();
             Log.i(TAG, "pause2");
             onPause = false;
+            signalIsPlay = false;
         }
         System.out.println("lastPause " + lastPause);
     }
@@ -106,42 +113,42 @@ private TextView textViewOverstatement;
         pauseButton.setEnabled(false);
         onPause = true;
         Log.i(TAG, "stop");
+        signalIsPlay = false;
     }
 
 
     public void buttonWinter(View view) {
-        Log.d(TAG, "winter");
         if(buttonWinterIsChecked){
-            buttonWinterIsChecked = false;
+            Log.d(TAG, "winter "+ buttonWinterIsChecked);
             buttonWinter.setImageResource(R.drawable.check_box1);
+            buttonWinterIsChecked = false;
+            signalIsPlay = false;
         } else {
-            buttonWinterIsChecked = true;
+            Log.d(TAG, "winter "+ buttonWinterIsChecked);
             buttonWinter.setImageResource(R.drawable.check_box2);
-        }
-        chronometer.setOnChronometerTickListener(new Chronometer.OnChronometerTickListener() {
-            @Override
-            public void onChronometerTick(Chronometer chronometer) {
-                if(buttonWinterIsChecked){
-
+            chronometer.setOnChronometerTickListener(new Chronometer.OnChronometerTickListener() {
+                @Override
+                public void onChronometerTick(Chronometer chronometer) {
                     long elapsedMillis = SystemClock.elapsedRealtime() - chronometer.getBase();
-                    if( (elapsedMillis >= WINTER_TIME)&&((elapsedMillis - WINTER_TIME) <= (1000)) ){
+                    if( (elapsedMillis >= WINTER_TIME)&&(buttonWinterIsChecked) ){
                         signal();
-                    }
-                    if (elapsedMillis >= WINTER_TIME){  // тревожная подсветка кнопки
                         buttonWinter.setImageResource(R.drawable.check_box3);
-                    } else {
-                        buttonWinter.setImageResource(R.drawable.check_box2);
-                    }
+                    } else buttonWinter.setImageResource(R.drawable.check_box2);
                 }
-            }
-        });
+            });
+            buttonWinterIsChecked = true;
+        }
     }
 
     public void signal(){
-        mp = MediaPlayer.create(this, R.raw.sound);
-        mp.start();
-        Log.i(TAG, "play");
+        if (!signalIsPlay){
+            mp = MediaPlayer.create(this, R.raw.sound);
+            mp.setLooping(false);
+            mp.start();
+        }
+        signalIsPlay = true;
     }
+
     protected void onResume() {
         super.onResume();
         if(!onPause){
