@@ -1,0 +1,6 @@
+<resources>
+    <string name="app_name">ТЧМ stopwatch</string>
+    <string name="winter">winter</string>
+    <string name="PTM">ПТМ</string>
+    <string name="Overstatement">ЗАВЫСЬ</string>
+</resources>

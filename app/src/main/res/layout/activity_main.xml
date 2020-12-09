@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/stop"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/screen"
+    android:orientation="vertical"
+    android:theme="@android:style/Theme.Black.NoTitleBar"
+    tools:context=".MainActivity">
+
+    <ImageButton
+        android:id="@+id/startButton"
+        android:layout_width="88sp"
+        android:layout_height="86sp"
+        android:layout_marginEnd="16sp"
+        android:layout_marginRight="16sp"
+        android:background="#00ffffff"
+        android:onClick="buttonStart"
+        android:src="@drawable/start"
+        android:text="start"
+        android:textSize="30sp"
+        app:layout_constraintBottom_toBottomOf="@+id/pauseButton"
+        app:layout_constraintEnd_toStartOf="@+id/pauseButton"
+        app:layout_constraintTop_toTopOf="@+id/pauseButton"
+        app:layout_constraintVertical_bias="0.0" />
+
+    <ImageButton
+        android:id="@+id/pauseButton"
+        android:layout_width="116sp"
+        android:layout_height="77sp"
+        android:background="#00ffffff"
+        android:onClick="buttonPause"
+        android:src="@drawable/pause"
+        android:text="pause"
+        android:textSize="30sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/chronometer"
+        app:layout_constraintVertical_bias="0.110000014" />
+
+    <ImageButton
+        android:id="@+id/stopButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16sp"
+        android:layout_marginLeft="16sp"
+        android:background="#00ffffff"
+        android:onClick="buttonStop"
+        android:src="@drawable/stop"
+        android:text="stop"
+        android:textSize="30sp"
+        app:layout_constraintBottom_toBottomOf="@+id/pauseButton"
+        app:layout_constraintStart_toEndOf="@+id/pauseButton"
+        app:layout_constraintTop_toTopOf="@+id/pauseButton" />
+
+    <Chronometer
+        android:id="@+id/chronometer"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:countDown="false"
+        android:gravity="center_horizontal"
+        android:textColor="#FFFFFF"
+        android:textSize="80sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.081" />
+
+    <ImageButton
+        android:id="@+id/winter"
+        style="@style/CardView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="#00ffffff"
+        android:button="@drawable/check_box"
+        android:checked="false"
+        android:duplicateParentState="false"
+        android:onClick="buttonWinter"
+        android:src="@drawable/check_box1"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/pauseButton"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="@+id/startButton"
+        app:layout_constraintTop_toBottomOf="@+id/startButton"
+        app:layout_constraintVertical_bias="0.15" />
+
+    <ImageButton
+        android:id="@+id/camp"
+        android:onClick="buttonCamp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/kp"
+        android:background="#00ffffff"
+        app:layout_constraintBottom_toBottomOf="@+id/winter"
+        app:layout_constraintEnd_toEndOf="@+id/pauseButton"
+        app:layout_constraintStart_toStartOf="@+id/pauseButton"
+        app:layout_constraintTop_toTopOf="@+id/winter" />
+
+    <TextView
+        android:id="@+id/textViewPTM"
+        android:visibility = "invisible"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/PTM"
+        android:textColor="@color/design_default_color_error"
+        android:textSize="24sp"
+        app:layout_constraintEnd_toEndOf="@+id/stopButton"
+        app:layout_constraintStart_toStartOf="@+id/stopButton"
+        app:layout_constraintTop_toTopOf="@+id/camp" />
+
+    <TextView
+        android:id="@+id/textViewOverstatement"
+        android:visibility = "invisible"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/Overstatement"
+        android:textColor="@color/design_default_color_error"
+        android:textSize="24sp"
+        app:layout_constraintStart_toStartOf="@+id/textViewPTM"
+        app:layout_constraintTop_toBottomOf="@+id/textViewPTM" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
