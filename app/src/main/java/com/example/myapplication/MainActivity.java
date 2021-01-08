@@ -72,7 +72,7 @@ public class MainActivity extends AppCompatActivity {
         onPause = false;
         signalIsPlayCamp = false;
         signalIsPlayWinter = false;
-        pauseButton.setEnabled(true);
+//        pauseButton.setEnabled(true);
         camp.setImageResource(R.drawable.kp);
     }
 
@@ -99,16 +99,15 @@ public class MainActivity extends AppCompatActivity {
             lastPause = SystemClock.elapsedRealtime();
             chronometer.stop();
             onPause = true;
-            Log.i(TAG, "pause1");
+            Log.i(TAG, "pause " + onPause);
         } else {
             chronometer.setBase(chronometer.getBase() + SystemClock.elapsedRealtime() - lastPause);
             chronometer.start();
-            Log.i(TAG, "pause2");
             onPause = false;
             signalIsPlayCamp = false;
             signalIsPlayWinter = false;
+            Log.i(TAG, "pause " + onPause);
         }
-        System.out.println("lastPause " + lastPause);
     }
 
     public void buttonStop(View view) {
@@ -151,7 +150,6 @@ public class MainActivity extends AppCompatActivity {
         if ((buttonCampIsChecked) && (alarmCampIsChecked)) camp.setImageResource(R.drawable.kp3);
         else if (buttonCampIsChecked) camp.setImageResource(R.drawable.kp2);
         if (!buttonCampIsChecked) alarmCampIsChecked = false;
-        Log.i(TAG, "visualization");
 //          Camp
         if (!buttonCampIsChecked) {
             camp.setImageResource(R.drawable.kp);
@@ -168,6 +166,7 @@ public class MainActivity extends AppCompatActivity {
             textViewOverstatement.setVisibility(View.INVISIBLE);
         }
         if (!buttonWinterIsChecked) alarmWinterIsChecked = false;
+//        Log.i(TAG, "visualization");
     }
 
     public void buttonWinter(View view) {
@@ -208,9 +207,12 @@ public class MainActivity extends AppCompatActivity {
         if (buttonCampIsChecked) {
             buttonCampIsChecked = false;
             signalIsPlayCamp = false;
+            visualization();
             Log.d(TAG, "buttonCamp " + buttonCampIsChecked);
         } else {
             buttonCampIsChecked = true;
+            onPause = false;
+            pauseButton.setEnabled(true);
             visualization();
             chronometer.setBase(SystemClock.elapsedRealtime());
             chronometer.start();
