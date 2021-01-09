@@ -84,45 +84,48 @@
         android:onClick="buttonWinter"
         android:src="@drawable/check_box1"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/pauseButton"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="@+id/startButton"
-        app:layout_constraintTop_toBottomOf="@+id/startButton"
-        app:layout_constraintVertical_bias="0.15" />
+        app:layout_constraintEnd_toEndOf="@+id/stopButton"
+        app:layout_constraintTop_toBottomOf="@+id/textViewOverstatement"
+        app:layout_constraintVertical_bias="0.89" />
 
     <ImageButton
         android:id="@+id/camp"
-        android:onClick="buttonCamp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:src="@drawable/kp"
+        android:layout_marginTop="16dp"
         android:background="#00ffffff"
-        app:layout_constraintBottom_toBottomOf="@+id/winter"
-        app:layout_constraintEnd_toEndOf="@+id/pauseButton"
-        app:layout_constraintStart_toStartOf="@+id/pauseButton"
-        app:layout_constraintTop_toTopOf="@+id/winter" />
+        android:onClick="buttonCamp"
+        android:src="@drawable/kp"
+        app:layout_constraintEnd_toEndOf="@+id/startButton"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="@+id/startButton"
+        app:layout_constraintTop_toBottomOf="@+id/pauseButton" />
 
     <TextView
         android:id="@+id/textViewPTM"
-        android:visibility = "invisible"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/PTM"
         android:textColor="@color/design_default_color_error"
-        android:textSize="24sp"
-        app:layout_constraintEnd_toEndOf="@+id/stopButton"
-        app:layout_constraintStart_toStartOf="@+id/stopButton"
+        android:textSize="30sp"
+        android:textStyle="bold"
+        android:visibility="invisible"
+        app:layout_constraintBottom_toBottomOf="@+id/camp"
+        app:layout_constraintEnd_toEndOf="@+id/pauseButton"
+        app:layout_constraintStart_toStartOf="@+id/pauseButton"
         app:layout_constraintTop_toTopOf="@+id/camp" />
 
     <TextView
         android:id="@+id/textViewOverstatement"
-        android:visibility = "invisible"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/Overstatement"
         android:textColor="@color/design_default_color_error"
-        android:textSize="24sp"
+        android:textSize="30sp"
+        android:textStyle="bold"
+        android:visibility="invisible"
+        app:layout_constraintEnd_toEndOf="@+id/textViewPTM"
         app:layout_constraintStart_toStartOf="@+id/textViewPTM"
-        app:layout_constraintTop_toBottomOf="@+id/textViewPTM" />
+        app:layout_constraintTop_toBottomOf="@+id/camp" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
