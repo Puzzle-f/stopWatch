@@ -17,7 +17,7 @@ public class MainActivity extends AppCompatActivity {
     private static final String TAG = MainActivity.class.getSimpleName();
     private long lastPause;
     private ImageButton pauseButton;
-    private final int WINTER_TIME = 7000; //2700000 45 минут
+    private final int WINTER_TIME = 2700000; // 45 минут
     private ImageButton buttonWinter;
     private ImageButton camp;
     private boolean buttonWinterIsChecked = false;
@@ -28,7 +28,7 @@ public class MainActivity extends AppCompatActivity {
     private boolean alarmWinterIsChecked = false;
     private boolean alarmCampIsChecked = false;
     private final String TIME_MILLIS = "time";
-    private final int CAMP_PTM = 3000; //5*1000*60 5 минут
+    private final int CAMP_PTM = 5*1000*60 - 15000; // 5 минут - 15сек запас
     private TextView textViewPTM;
     private TextView textViewOverstatement;
     long elapsedMillis;
@@ -72,7 +72,6 @@ public class MainActivity extends AppCompatActivity {
         onPause = false;
         signalIsPlayCamp = false;
         signalIsPlayWinter = false;
-//        pauseButton.setEnabled(true);
         camp.setImageResource(R.drawable.kp);
     }
 
@@ -89,7 +88,7 @@ public class MainActivity extends AppCompatActivity {
         this.textViewOverstatement = (TextView) findViewById(R.id.textViewOverstatement);
         pauseButton.setEnabled(false);
         getSupportActionBar().hide(); // убрать шапку приложения
-//        listener();
+        logic();
         Log.i(TAG, "onCreate");
     }
 
@@ -120,9 +119,7 @@ public class MainActivity extends AppCompatActivity {
         buttonCampIsChecked = false;
         visualization();
         Log.i(TAG, "stop");
-
     }
-
 
     public void signal() {
         MediaPlayer mp;
@@ -166,7 +163,6 @@ public class MainActivity extends AppCompatActivity {
             textViewOverstatement.setVisibility(View.INVISIBLE);
         }
         if (!buttonWinterIsChecked) alarmWinterIsChecked = false;
-//        Log.i(TAG, "visualization");
     }
 
     public void buttonWinter(View view) {
@@ -179,28 +175,43 @@ public class MainActivity extends AppCompatActivity {
             buttonWinterIsChecked = true;
             visualization();
             Log.d(TAG, "winter " + buttonWinterIsChecked);
-            chronometer.setOnChronometerTickListener(new Chronometer.OnChronometerTickListener() {
-                @Override
-                public void onChronometerTick(Chronometer chronometer) {
-                    elapsedMillis = SystemClock.elapsedRealtime() - chronometer.getBase();
-                    if ((elapsedMillis >= WINTER_TIME) && (buttonWinterIsChecked) && (!signalIsPlayWinter)) {
-                        signalIsPlayWinter = true;
-                        alarmWinterIsChecked = true;
-                        signal();
-                    } else if ((elapsedMillis >= WINTER_TIME) && (buttonWinterIsChecked) && (signalIsPlayWinter)) {
-                        alarmWinterIsChecked = true;
-                    }
-                    if ((elapsedMillis < WINTER_TIME) && (buttonWinterIsChecked)) {
-                        signalIsPlayWinter = false;
-                        alarmWinterIsChecked = false;
-                    } else if (!buttonWinterIsChecked) {
-                        signalIsPlayWinter = false;
-                        alarmWinterIsChecked = false;
-                    }
-                    visualization();
-                }
-            });
         }
+    }
+
+    public void logic(){
+        chronometer.setOnChronometerTickListener(new Chronometer.OnChronometerTickListener() {
+            @Override
+            public void onChronometerTick(Chronometer chronometer) {
+                elapsedMillis = SystemClock.elapsedRealtime() - chronometer.getBase();
+                if ((elapsedMillis >= CAMP_PTM) && (buttonCampIsChecked) && (!signalIsPlayCamp)) {
+                    signalIsPlayCamp = true;
+                    alarmCampIsChecked = true;
+                    signal();
+                } else if ((elapsedMillis >= CAMP_PTM) && (buttonCampIsChecked) && (signalIsPlayCamp)) alarmCampIsChecked = true;
+                if ((elapsedMillis < CAMP_PTM) && (buttonCampIsChecked)) {
+                    alarmCampIsChecked = false;
+                    signalIsPlayCamp = false;
+                } else if (!buttonCampIsChecked) {
+                    signalIsPlayCamp = false;
+                    alarmCampIsChecked = false;
+                }
+                if ((elapsedMillis >= WINTER_TIME) && (buttonWinterIsChecked) && (!signalIsPlayWinter)) {
+                    signalIsPlayWinter = true;
+                    alarmWinterIsChecked = true;
+                    signal();
+                } else if ((elapsedMillis >= WINTER_TIME) && (buttonWinterIsChecked) && (signalIsPlayWinter)) {
+                    alarmWinterIsChecked = true;
+                }
+                if ((elapsedMillis < WINTER_TIME) && (buttonWinterIsChecked)) {
+                    signalIsPlayWinter = false;
+                    alarmWinterIsChecked = false;
+                } else if (!buttonWinterIsChecked) {
+                    signalIsPlayWinter = false;
+                    alarmWinterIsChecked = false;
+                }
+                visualization();
+            }
+        });
     }
 
     public void buttonCamp(View view) {
@@ -213,29 +224,11 @@ public class MainActivity extends AppCompatActivity {
             buttonCampIsChecked = true;
             onPause = false;
             pauseButton.setEnabled(true);
-            visualization();
             chronometer.setBase(SystemClock.elapsedRealtime());
             chronometer.start();
+            visualization();
             Log.d(TAG, "buttonCamp " + buttonCampIsChecked);
-                chronometer.setOnChronometerTickListener(new Chronometer.OnChronometerTickListener() {
-                    @Override
-                    public void onChronometerTick(Chronometer chronometer) {
-                        elapsedMillis = SystemClock.elapsedRealtime() - chronometer.getBase();
-                        if ((elapsedMillis >= CAMP_PTM) && (buttonCampIsChecked) && (!signalIsPlayCamp)) {
-                            signalIsPlayCamp = true;
-                            alarmCampIsChecked = true;
-                            signal();
-                        } else if ((elapsedMillis >= CAMP_PTM) && (buttonCampIsChecked) && (signalIsPlayCamp)) alarmCampIsChecked = true;
-                        if ((elapsedMillis < CAMP_PTM) && (buttonCampIsChecked)) {
-                            alarmCampIsChecked = false;
-                            signalIsPlayCamp = false;
-                        } else if (!buttonCampIsChecked) {
-                            signalIsPlayCamp = false;
-                            alarmCampIsChecked = false;
-                        }
-                        visualization();
-                    }
-                });
         }
     }
+
 }

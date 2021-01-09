@@ -103,14 +103,16 @@
 
     <TextView
         android:id="@+id/textViewPTM"
-        android:visibility = "invisible"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/PTM"
         android:textColor="@color/design_default_color_error"
-        android:textSize="24sp"
-        app:layout_constraintEnd_toEndOf="@+id/stopButton"
-        app:layout_constraintStart_toStartOf="@+id/stopButton"
+        android:textSize="30sp"
+        android:textStyle="bold"
+        android:visibility="invisible"
+        app:layout_constraintBottom_toBottomOf="@+id/camp"
+        app:layout_constraintEnd_toEndOf="@+id/pauseButton"
+        app:layout_constraintStart_toStartOf="@+id/pauseButton"
         app:layout_constraintTop_toTopOf="@+id/camp" />
 
     <TextView
@@ -119,9 +121,11 @@
         android:layout_height="wrap_content"
         android:text="@string/Overstatement"
         android:textColor="@color/design_default_color_error"
-        android:textSize="24sp"
+        android:textSize="30sp"
+        android:textStyle="bold"
         android:visibility="invisible"
-        app:layout_constraintStart_toStartOf="@+id/stopButton"
-        app:layout_constraintTop_toBottomOf="@+id/textViewPTM" />
+        app:layout_constraintEnd_toEndOf="@+id/textViewPTM"
+        app:layout_constraintStart_toStartOf="@+id/textViewPTM"
+        app:layout_constraintTop_toBottomOf="@+id/camp" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
